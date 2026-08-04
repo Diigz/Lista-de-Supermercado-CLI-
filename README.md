@@ -13,7 +13,7 @@ Um pequeno sistema de linha de comando para gerenciar uma lista de compras, feit
 
 ## Requisitos
 
-- Python 3.14+ (ou qualquer versão 3.x recente, sem dependências externas)
+- Python 3.10+ (sem dependências externas)
 
 ## Como executar
 

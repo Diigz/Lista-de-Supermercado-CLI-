@@ -1,8 +1,7 @@
-# PRECISO CRIAR UM INSERIR LISTA, APAGAR LISTA E MOSTRAR A LISTA COMPLETA E SEU INDICE.
 import os
 
 
-def Limpar():
+def limpar():
     os.system("cls" if os.name == "nt" else "clear")
 
 
@@ -14,83 +13,117 @@ def apresentacao():
     print("Coloque oque deseja: [a]dicionar, [d]eletar, [l]istar e [c]oncluir.\n")
 
 
-Limpar()
-
-tentativa = 0
-lista_de_compras = []
-
-while True:
-    apresentacao()
-    escolha = input("O que deseja fazer agora: ").lower()
-
-    if len(escolha) > 1:
-        Limpar()
-        tentativa += 1
-        if tentativa > 2:
-            Limpar()
-            print("Muitos erros, devido a isso o sistema se desligará.")
+def adicionar(lista_de_compras):
+    limpar()
+    print("Você entrou no carrinho de compras, adicione tudo que deseja comprar!\n")
+    print("Quando terminar apenas digite [s]air")
+    while True:
+        produto = input("Digite o que deseja colocar: ").strip().lower()
+        if produto == "s" or produto == "sair":
+            limpar()
             break
-        print("Porfavor, insira somente uma opção!")
-        continue
+        if not produto:
+            print("Digite um produto válido.")
+            continue
+        lista_de_compras.append(produto)
 
-    if escolha == "a":
-        Limpar()
-        print("Você entrou no carrinho de compras, adicione tudo que deseja comprar!\n")
-        print("Quando terminar apenas digite [s]air")
-        while True:
-            produto = input("Digite o que deseja colocar: ").lower()
-            if produto == "s" or produto == "sair":
-                Limpar()
-                break
-            lista_de_compras.append(produto)
 
-    elif escolha == "l":
-        Limpar()
-        print("Muito bem, aqui está a sua lista!\n")
-        for i, listar in enumerate(lista_de_compras):
-            i += 1
-            print(f"{i}.{listar}")
-        input("\nDigite qualquer coisa para voltar...")
-        Limpar()
-        continue
+def listar(lista_de_compras):
+    limpar()
+    print("Muito bem, aqui está a sua lista!\n")
+    if not lista_de_compras:
+        print("Sua lista está vazia.")
+    else:
+        for i, item in enumerate(lista_de_compras, start=1):
+            print(f"{i}.{item}")
+    input("\nDigite qualquer coisa para voltar...")
+    limpar()
 
-    elif escolha == "d":
-        Limpar()
-        print(
-            "Agora você está na seção de remoção! Os seus produtos estão listados abaixo, depois escolha o número que deseja remover\n"
+
+def deletar(lista_de_compras):
+    limpar()
+    if not lista_de_compras:
+        print("Sua lista está vazia, não há o que deletar.\n")
+        input("Digite qualquer coisa para voltar...")
+        limpar()
+        return
+
+    print(
+        "Agora você está na seção de remoção! Os seus produtos estão listados abaixo, depois escolha o número que deseja remover\n"
+    )
+    for i, item in enumerate(lista_de_compras, start=1):
+        print(f"{i}. {item}")
+
+    while True:
+        entrada = (
+            input("\nDigite o número do produto para deletar (ou [s]air): ")
+            .strip()
+            .lower()
         )
-        for i, listar in enumerate(lista_de_compras):
-            i += 1
-            print(f"{i}. {listar}")
-        while True:
-            try:
-                deletar_lista = int(input("\nDigite o produto para deletar: "))
-                deletar_lista -= 1
-                if deletar_lista < 0 or deletar_lista >= len(lista_de_compras):
-                    print("Digite a opção correta, porfavor.")
-                    continue
-            except ValueError:
+        if entrada == "s" or entrada == "sair":
+            limpar()
+            return
+        try:
+            indice = int(entrada) - 1
+            if indice < 0 or indice >= len(lista_de_compras):
                 print("Digite a opção correta, porfavor.")
                 continue
-            lista_de_compras.pop(deletar_lista)
-            Limpar()
-            break
-    elif escolha == "c":
-        Limpar()
-        if not lista_de_compras:
-            Limpar()
-            print("Obrigado pela visita!")
+        except ValueError:
+            print("Digite a opção correta, porfavor.")
+            continue
+        lista_de_compras.pop(indice)
+        limpar()
+        break
+
+
+def concluir(lista_de_compras):
+    limpar()
+    if not lista_de_compras:
+        print("Obrigado pela visita!")
+    else:
+        print("Obrigado pela(s) compra(s)! Leve seus produtos:\n")
+        for item in lista_de_compras:
+            print(item)
+
+
+def main():
+    limpar()
+
+    tentativa = 0
+    lista_de_compras = []
+
+    while True:
+        apresentacao()
+        escolha = input("O que deseja fazer agora: ").strip().lower()
+
+        if len(escolha) != 1:
+            limpar()
+            tentativa += 1
+            if tentativa > 2:
+                limpar()
+                print("Muitos erros, devido a isso o sistema se desligará.")
+                break
+            print("Porfavor, insira somente uma opção!")
+            continue
+
+        if escolha == "a":
+            adicionar(lista_de_compras)
+        elif escolha == "l":
+            listar(lista_de_compras)
+        elif escolha == "d":
+            deletar(lista_de_compras)
+        elif escolha == "c":
+            concluir(lista_de_compras)
             break
         else:
-            print("Obrigado pela(s) compra(s)! Leve seus produtos:\n")
-            for listar in lista_de_compras:
-                print(listar)
-            break
-    else:
-        Limpar()
-        tentativa += 1
-        if tentativa > 2:
-            Limpar()
-            print("Muitos erros, devido a isso o sistema se desligará.")
-            break
-        continue
+            limpar()
+            tentativa += 1
+            if tentativa > 2:
+                limpar()
+                print("Muitos erros, devido a isso o sistema se desligará.")
+                break
+            continue
+
+
+if __name__ == "__main__":
+    main()
