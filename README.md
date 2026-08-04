@@ -41,14 +41,3 @@ uv run src/python/main.py
 ├── main.py          # Lógica principal do programa (menu, loop e ações)
 └── README.md
 ```
-
-## Possíveis melhorias futuras
-
-- Persistir a lista em arquivo (JSON/CSV) entre execuções.
-- Adicionar quantidade e preço a cada produto, com cálculo de total.
-- Resetar o contador de tentativas ao acertar uma opção válida.
-- Separar as funções em um módulo `utilities.py` para reuso e testes.
-
-## Licença
-
-Projeto de estudo, sem licença formal definida.
